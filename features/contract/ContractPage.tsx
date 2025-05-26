@@ -1,10 +1,6 @@
 'use client';
 
 import React, { useState } from "react";
-import useSWR from "swr";
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import LeafletMap from "@/components/map/Map";
 import ContactForm from "@/components/form/contactForm";
 

@@ -13,6 +13,10 @@ const DynamicContractPage = dynamic(() => import('@/features/contract/ContractPa
     ssr: false,
 });
 
+
+const DynamicNoticePage = dynamic(() => import('@/features/notice/NoticePage'), {
+    ssr: false,
+});
 export default function Home() {
     return (
         <>
@@ -21,6 +25,10 @@ export default function Home() {
                 <div className="w-full">
                     <DynamicCustomSlider />
                 </div>
+                <div className='flex my-10 justify-center'>
+                    <DynamicNoticePage />
+                </div>
+
                 <div className="flex">
                     <DynamicContractPage />
                 </div>
