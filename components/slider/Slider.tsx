@@ -1,9 +1,9 @@
 import React from "react";
 
 const images = [
-    "/images/sample1.jpg",
-    "/images/sample2.jpg",
-    "/images/sample3.jpg",
+    "/images/bg01.jpg",
+    "/images/bg02.jpg",
+    "/images/bg03.jpg",
 ];
 
 export default function CustomSlider() {
@@ -31,7 +31,7 @@ export default function CustomSlider() {
         <div className="w-full">
             <div className="relative bg-white overflow-hidden">
                 {/* Main slider container */}
-                <div className="relative h-96 overflow-hidden">
+                <div className="relative h-120 overflow-hidden">
                     <div
                         className="flex transition-transform duration-500 ease-in-out h-full"
                         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
