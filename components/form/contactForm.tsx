@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useContactStore } from "@/store/useContactFormStore";
+import getCookie from "@/types/getCookies";
 
 
 export default function ContactForm() {
@@ -13,12 +14,19 @@ export default function ContactForm() {
         e.preventDefault();
         const formData = { name, email, message };
 
+        const csrfToken = getCookie('csrftoken');
+
         try {
+
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(csrfToken ? { 'X-CSRFToken': csrfToken } : {}),
+                },
+                credentials: 'include',
             });
+
 
             if (!res.ok) throw new Error("Failed to send");
 
