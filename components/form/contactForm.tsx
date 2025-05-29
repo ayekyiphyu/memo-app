@@ -25,12 +25,12 @@ export default function ContactForm() {
                     ...(csrfToken ? { 'X-CSRFToken': csrfToken } : {}),
                 },
                 credentials: 'include',
+                body: JSON.stringify(formData), // ← This is the missing part
             });
 
 
-            if (!res.ok) throw new Error("Failed to send");
 
-            alert("Message sent successfully!");
+            if (!res.ok) throw new Error("Failed to send");
             resetForm();
         } catch (error) {
             console.error(error);
@@ -64,6 +64,7 @@ export default function ContactForm() {
                 rows={5}
                 required
             />
+
 
             <Button type="submit" className="w-full">
                 Submit
