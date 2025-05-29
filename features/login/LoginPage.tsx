@@ -83,8 +83,6 @@ const LoginPage = () => {
             localStorage.setItem('user', JSON.stringify(data.user));
             console.log("user", data.user.is_superuser);
             if (data.user.is_superuser) {
-                router.push('/notices');
-            } else {
                 router.push('/dashboard');
             }
         }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,6 +17,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useUIStore } from "@/store/useDrawStore"
+import router from 'next/router';
 
 // SWR fetcher
 const fetcher = (url: string) =>
@@ -31,12 +32,19 @@ function getCookie(name: string) {
     return null;
 }
 
+
 export default function DashboardPage() {
     // SWRでユーザー情報取得
     const { data: user, isLoading: userLoading, mutate: mutateUser } = useSWR(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/userinfo/`,
         fetcher
     );
+
+    // Later in JSX or logic:
+    if (user?.is_superuser) {
+        console.log("This is a superuser!");
+    }
+
 
     // SWRでメモ一覧取得
     const { data: memos, isLoading: memosLoading, mutate: mutateMemos } = useSWR(
@@ -165,6 +173,13 @@ export default function DashboardPage() {
         setDrawerOpen(false);
     };
 
+    useEffect(() => {
+        if (user?.is_superuser) {
+            console.log("SuperUser", user);
+        }
+    }, [user]);
+
+
     return (
         <div className="flex min-h-screen bg-gray-50">
             {/* Sidebar */}
@@ -178,18 +193,21 @@ export default function DashboardPage() {
                             <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600">
                                 <User size={20} />
                             </div>
+
                             {userLoading ? (
                                 <span className="text-sm opacity-75">Loading...</span>
                             ) : user ? (
                                 <div>
                                     <span className="font-medium">{user.username}</span>
                                     <p className="text-xs opacity-75">Welcome back!</p>
+
                                 </div>
                             ) : (
                                 <span className="text-sm opacity-75">Not logged in</span>
                             )}
                         </div>
                     </div>
+
 
                     {/* Actions */}
                     <div className="space-y-4">
@@ -202,6 +220,15 @@ export default function DashboardPage() {
                             </DrawerTrigger>
                         </Drawer>
 
+                        {user?.is_superuser && (
+                            <Button
+                                variant="ghost"
+                                className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all"
+                                onClick={() => router.push('/notices')}
+                            >
+                                お知らせ作成
+                            </Button>
+                        )}
                         <Button
                             variant="ghost"
                             className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all"
@@ -241,12 +268,16 @@ export default function DashboardPage() {
                                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
                                     <User size={20} />
                                 </div>
+
                                 {userLoading ? (
                                     <span className="text-sm text-gray-500">Loading...</span>
                                 ) : user ? (
                                     <div>
                                         <span className="font-medium">{user.username}</span>
                                         <p className="text-xs text-gray-500">Welcome back!</p>
+                                        {user.is_superuser && (
+                                            <button className="text-xs text-red-500 font-semibold">SuperUser</button>
+                                        )}
                                     </div>
                                 ) : (
                                     <span className="text-sm text-gray-500">Not logged in</span>
@@ -254,6 +285,7 @@ export default function DashboardPage() {
                             </div>
                         </CardContent>
                     </Card>
+
                 </div>
 
                 {/* Memo list with enhanced styling */}
@@ -352,6 +384,6 @@ export default function DashboardPage() {
                     </div>
                 </DrawerContent>
             </Drawer>
-        </div>
+        </div >
     );
 }
