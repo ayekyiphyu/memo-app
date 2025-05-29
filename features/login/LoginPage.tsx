@@ -81,9 +81,15 @@ const LoginPage = () => {
         if (data && data.user) {
             useUserStore.getState().setUser(data.user);
             localStorage.setItem('user', JSON.stringify(data.user));
-            router.push('/dashboard');
+            console.log("user", data.user.is_superuser);
+            if (data.user.is_superuser) {
+                router.push('/notices');
+            } else {
+                router.push('/dashboard');
+            }
         }
     }, [data, router]);
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

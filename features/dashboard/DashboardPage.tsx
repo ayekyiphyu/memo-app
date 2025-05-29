@@ -47,7 +47,6 @@ export default function DashboardPage() {
     const [newTitle, setNewTitle] = useState('');
     const [newContent, setNewContent] = useState('');
     const [editingId, setEditingId] = useState<number | null>(null);
-    // const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     const isDrawerOpen = useUIStore((state) => state.isDrawerOpen);
     const setDrawerOpen = useUIStore((state) => state.setDrawerOpen);
