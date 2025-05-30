@@ -17,7 +17,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useUIStore } from "@/store/useDrawStore"
-import router from 'next/router';
+// Fixed import - use useRouter hook instead of direct import
+import { useRouter } from 'next/router';
 
 // SWR fetcher
 const fetcher = (url: string) =>
@@ -32,8 +33,10 @@ function getCookie(name: string) {
     return null;
 }
 
-
 export default function DashboardPage() {
+    // Fixed: Use useRouter hook
+    const router = useRouter();
+
     // SWRでユーザー情報取得
     const { data: user, isLoading: userLoading, mutate: mutateUser } = useSWR(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/userinfo/`,
@@ -44,7 +47,6 @@ export default function DashboardPage() {
     if (user?.is_superuser) {
         console.log("This is a superuser!");
     }
-
 
     // SWRでメモ一覧取得
     const { data: memos, isLoading: memosLoading, mutate: mutateMemos } = useSWR(
@@ -58,8 +60,6 @@ export default function DashboardPage() {
 
     const isDrawerOpen = useUIStore((state) => state.isDrawerOpen);
     const setDrawerOpen = useUIStore((state) => state.setDrawerOpen);
-
-
 
     // メモ作成
     const handleCreate = async () => {
@@ -179,7 +179,6 @@ export default function DashboardPage() {
         }
     }, [user]);
 
-
     return (
         <div className="flex min-h-screen bg-gray-50">
             {/* Sidebar */}
@@ -200,7 +199,6 @@ export default function DashboardPage() {
                                 <div>
                                     <span className="font-medium">{user.username}</span>
                                     <p className="text-xs opacity-75">Welcome back!</p>
-
                                 </div>
                             ) : (
                                 <span className="text-sm opacity-75">Not logged in</span>
@@ -208,12 +206,11 @@ export default function DashboardPage() {
                         </div>
                     </div>
 
-
                     {/* Actions */}
                     <div className="space-y-4">
                         <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
                             <DrawerTrigger asChild>
-                                <Button className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all">
+                                <Button className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all">
                                     <Plus size={18} />
                                     メーモを作成
                                 </Button>
@@ -285,7 +282,6 @@ export default function DashboardPage() {
                             </div>
                         </CardContent>
                     </Card>
-
                 </div>
 
                 {/* Memo list with enhanced styling */}
@@ -384,6 +380,6 @@ export default function DashboardPage() {
                     </div>
                 </DrawerContent>
             </Drawer>
-        </div >
+        </div>
     );
 }

@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from "react";
 import LeafletMap from "@/components/map/Map";
 import ContactForm from "@/components/form/contactForm";
