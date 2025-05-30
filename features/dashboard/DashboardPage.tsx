@@ -17,7 +17,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useUIStore } from "@/store/useDrawStore"
-// Fixed import - use useRouter hook instead of direct import
 import { useRouter } from 'next/router';
 
 // SWR fetcher
@@ -221,9 +220,9 @@ export default function DashboardPage() {
                             <Button
                                 variant="ghost"
                                 className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all"
-                                onClick={() => router.push('/notices')}
+                                onClick={() => router.push('/notices-lists')}
                             >
-                                お知らせ作成
+                                お知らせ一覧
                             </Button>
                         )}
                         <Button

@@ -17,7 +17,7 @@ const DynamicContractPage = dynamic(() => import('@/features/contract/ContractPa
 });
 
 
-const DynamicNoticePage = dynamic(() => import('@/features/notice/NoticePage'), {
+const DynamicNoticePage = dynamic(() => import('@/features/notice/NoticeListsPage'), {
     ssr: false,
 });
 
