@@ -1,11 +1,15 @@
 'use client';
 import React from 'react';
 import useSWR from 'swr';
+
 import {
     Card,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+
+import { Button } from "@/components/ui/button"; // Assuming you have a Button component
+// Fixed import - use useRouter hook instead of direct import
 import { useRouter } from 'next/router';
 
 // SWR fetcher
@@ -13,6 +17,7 @@ const fetcher = (url: string) =>
     fetch(url, { credentials: 'include' }).then(res => res.json());
 
 export default function NoticeListsPage() {
+    // Fixed: Use useRouter hook
     const router = useRouter();
 
     const { data: notices, error, isLoading, mutate } = useSWR(
@@ -62,7 +67,25 @@ export default function NoticeListsPage() {
         <div className="w-full p-8 bg-gray-100 min-h-screen">
             <h2 className="text-center font-bold text-2xl mb-10">お知らせ一覧</h2>
             <div className="max-w-6xl mx-auto space-y-6">
+                <div className='flex flex-row'>
+                    <Button
+                        className="flex justify-end bg-blue-500 text-white cursor-pointer"
+                        onClick={() => router.push('/notices')}
+                        variant="outline"
+                        size="sm"
+                    >
+                        お知らせ作成
+                    </Button>
 
+                    <Button
+                        className="flex justify-end bg-gray-500 text-white ml-[1rem] cursor-pointer"
+                        onClick={() => router.push('/dashboard')}
+                        variant="outline"
+                        size="sm"
+                    >
+                        Back
+                    </Button>
+                </div>
 
                 {notices.map((notice: { id: number; date: string; title: string; content: string }) => (
                     <Card key={notice.id} className="p-4">
@@ -75,6 +98,14 @@ export default function NoticeListsPage() {
                                     {notice.title}
                                 </CardTitle>
                                 <p className="text-gray-700 whitespace-pre-line mt-1">{notice.content}</p>
+                            </div>
+                            <div className="flex gap-2 mt-3 md:mt-0">
+                                <Button onClick={() => handleEdit(notice.id)} variant="outline" size="sm">
+                                    Edit
+                                </Button>
+                                <Button onClick={() => handleDelete(notice.id)} variant="destructive" size="sm">
+                                    Delete
+                                </Button>
                             </div>
                         </CardHeader>
                     </Card>

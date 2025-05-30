@@ -1,12 +1,13 @@
 'use client';
 
-import NoticeListsPage from "@/features/notice/NoticeListsPage";
+import NoticeListsAdminPage from "@/features/notice/NoticeListsAdminPage";
+
 
 export default function Notices() {
     return (
 
         <>
-            <NoticeListsPage />
+            <NoticeListsAdminPage />
         </>
     )
 }

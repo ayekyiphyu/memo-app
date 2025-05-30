@@ -7,7 +7,7 @@ export default function Notices() {
     return (
 
         <>
-            <NoticeFormPage/>
+            <NoticeFormPage />
         </>
     )
 }
