@@ -1,11 +1,13 @@
 'use client';
 
+import NoticeFormPage from "@/features/notice/NoticeFormPage";
+
 
 export default function Notices() {
     return (
 
         <>
-            <div>This is Notice Form </div>
+            <NoticeFormPage/>
         </>
     )
 }

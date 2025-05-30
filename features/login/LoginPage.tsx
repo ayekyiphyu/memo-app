@@ -84,6 +84,8 @@ const LoginPage = () => {
             console.log("user", data.user.is_superuser);
             if (data.user.is_superuser) {
                 router.push('/dashboard');
+            } else {
+                router.push('/dashboard');
             }
         }
     }, [data, router]);
