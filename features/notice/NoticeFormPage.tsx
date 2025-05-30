@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Router } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,7 +11,6 @@ import useSWR from 'swr';
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -27,6 +26,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import router from 'next/router';
 
 const formSchema = z.object({
     title: z.string().min(2, { message: 'Title must be at least 2 characters.' }).max(50),
@@ -79,7 +79,7 @@ export default function NoticeFormPage() {
                 credentials: 'include',
                 body: JSON.stringify({
                     title: data.title,
-                    date: format(data.date, 'yyyy-MM-dd'), //data format 
+                    date: format(data.date, 'yyyy-MM-dd'), //data format
                     content: data.content,
                 }),
             });
@@ -167,6 +167,9 @@ export default function NoticeFormPage() {
 
                     <Button type="submit" disabled={form.formState.isSubmitting}>
                         {form.formState.isSubmitting ? 'Submitting...' : 'Submit'}
+                    </Button>
+                    <Button variant="outline" className='ml-[2rem]' type="button" onClick={() => router.push('/dashboard')}>
+                        Back to Dashboard
                     </Button>
                 </form>
             </Form>
