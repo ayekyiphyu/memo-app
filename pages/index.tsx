@@ -31,7 +31,8 @@ export default function Home() {
             {/* <div>
                 <AdminManagementSystem />
                 <AdminManagementSystem />
-            </div> */}
+        </div > */}
+
             <Header />
             <main className="w-full">
                 <div className="w-full">

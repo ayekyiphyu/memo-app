@@ -6,6 +6,7 @@ import { CalendarIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useSWR from 'swr';
 
 import {
     Form,
@@ -35,7 +36,25 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
+// Fetcher function
+const fetcher = (url: string) => fetch(url, { credentials: 'include' }).then(res => res.json());
+
+// Cookie utility function
+function getCookie(name: string) {
+    if (typeof document === 'undefined') return null;
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
+}
+
 export default function NoticeFormPage() {
+    // SWR for fetching notices
+    const { data: memos, isLoading: memosLoading, mutate: mutateMemos } = useSWR(
+        `${process.env.NEXT_PUBLIC_API_URL}/notices/`,
+        fetcher
+    );
+
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -45,8 +64,38 @@ export default function NoticeFormPage() {
         },
     });
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log('Submitted:', data);
+    const onSubmit = async (data: FormSchemaType) => {
+        try {
+            console.log('Submitted:', data);
+
+            const csrfToken = getCookie('csrftoken');
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/notices/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(csrfToken ? { 'X-CSRFToken': csrfToken } : {}),
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    title: data.title,
+                    date: format(data.date, 'yyyy-MM-dd'), //data format 
+                    content: data.content,
+                }),
+            });
+
+            if (response.ok) {
+                // Reset form after successful submission
+                form.reset();
+                // Refresh the data
+                mutateMemos();
+                console.log('Notice created successfully');
+            } else {
+                console.error('Failed to create notice');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
     };
 
     return (
@@ -73,7 +122,7 @@ export default function NoticeFormPage() {
                         control={form.control}
                         name="date"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col ">
+                            <FormItem className="flex flex-col">
                                 <FormLabel>Date</FormLabel>
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -116,7 +165,9 @@ export default function NoticeFormPage() {
                         )}
                     />
 
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" disabled={form.formState.isSubmitting}>
+                        {form.formState.isSubmitting ? 'Submitting...' : 'Submit'}
+                    </Button>
                 </form>
             </Form>
         </div>
