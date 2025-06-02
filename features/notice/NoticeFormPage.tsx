@@ -124,7 +124,7 @@ export default function NoticeFormPage() {
                             <FormItem className="flex flex-col">
                                 <FormLabel>Date</FormLabel>
                                 <Popover>
-                                    <PopoverTrigger asChild>
+                                    <PopoverTrigger>
                                         <FormControl>
                                             <Button
                                                 variant="outline"
@@ -167,7 +167,7 @@ export default function NoticeFormPage() {
                     <Button type="submit" disabled={form.formState.isSubmitting}>
                         {form.formState.isSubmitting ? 'Submitting...' : 'Submit'}
                     </Button>
-                    <Button variant="outline" className='ml-[2rem]' type="button" onClick={() => router.push('/dashboard')}>
+                    <Button variant="outline" className='ml-[2rem]' type="button" onClick={() => router.push('/notices-lists')}>
                         Back to Dashboard
                     </Button>
                 </form>
