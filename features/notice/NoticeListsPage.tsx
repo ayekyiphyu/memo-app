@@ -1,12 +1,11 @@
 'use client';
-import React from 'react';
-import useSWR from 'swr';
 import {
     Card,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
 import { useRouter } from 'next/router';
+import useSWR from 'swr';
 
 // SWR fetcher
 const fetcher = (url: string) =>
@@ -52,18 +51,13 @@ export default function NoticeListsPage() {
         }
     };
 
-    // Edit handler - you can replace this with your actual navigation logic
     const handleEdit = (id: number) => {
-        // Better to use router.push instead of window.location.href
         router.push(`/notices/edit/${id}`);
     };
-
     return (
         <div className="w-full p-8 bg-gray-100 min-h-screen">
             <h2 className="text-center font-bold text-2xl mb-10">お知らせ一覧</h2>
             <div className="max-w-6xl mx-auto space-y-6">
-
-
                 {notices.map((notice: { id: number; date: string; title: string; content: string }) => (
                     <Card key={notice.id} className="p-4">
                         <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0">

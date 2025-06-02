@@ -1,11 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import useSWR from 'swr';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { LogOut, Plus, User } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Drawer,
     DrawerClose,
@@ -14,10 +10,14 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useUIStore } from "@/store/useDrawStore"
+import { Textarea } from '@/components/ui/textarea';
+import { useUIStore } from "@/store/useDrawStore";
+import { LogOut, Plus, User } from 'lucide-react';
 import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import useSWR from 'swr';
 
 // SWR fetcher
 const fetcher = (url: string) =>
@@ -33,16 +33,13 @@ function getCookie(name: string) {
 }
 
 export default function DashboardPage() {
-    // Fixed: Use useRouter hook
     const router = useRouter();
 
-    // SWRでユーザー情報取得
     const { data: user, isLoading: userLoading, mutate: mutateUser } = useSWR(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/userinfo/`,
         fetcher
     );
 
-    // Later in JSX or logic:
     if (user?.is_superuser) {
         console.log("This is a superuser!");
     }
@@ -56,7 +53,6 @@ export default function DashboardPage() {
     const [newTitle, setNewTitle] = useState('');
     const [newContent, setNewContent] = useState('');
     const [editingId, setEditingId] = useState<number | null>(null);
-
     const isDrawerOpen = useUIStore((state) => state.isDrawerOpen);
     const setDrawerOpen = useUIStore((state) => state.setDrawerOpen);
 

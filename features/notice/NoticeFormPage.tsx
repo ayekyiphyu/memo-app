@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
-import { format } from 'date-fns';
-import { CalendarIcon, Router } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
+import { z } from 'zod';
 
 import {
     Form,
@@ -17,15 +16,15 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import { Textarea } from '@/components/ui/textarea';
 import router from 'next/router';
 
 const formSchema = z.object({

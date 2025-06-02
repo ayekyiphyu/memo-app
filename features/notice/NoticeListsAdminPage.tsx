@@ -1,16 +1,12 @@
 'use client';
-import React from 'react';
-import useSWR from 'swr';
-
 import {
     Card,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import useSWR from 'swr';
 
 import { Button } from "@/components/ui/button"; // Assuming you have a Button component
-import { Router } from 'lucide-react';
-// Fixed import - use useRouter hook instead of direct import
 import { useRouter } from 'next/router';
 
 // SWR fetcher
@@ -18,7 +14,6 @@ const fetcher = (url: string) =>
     fetch(url, { credentials: 'include' }).then(res => res.json());
 
 export default function NoticeListsPage() {
-    // Fixed: Use useRouter hook
     const router = useRouter();
 
     const { data: notices, error, isLoading, mutate } = useSWR(
@@ -58,9 +53,7 @@ export default function NoticeListsPage() {
         }
     };
 
-    // Edit handler - you can replace this with your actual navigation logic
     const handleEdit = (id: number) => {
-        // Better to use router.push instead of window.location.href
         router.push(`/notices/edit/${id}`);
     };
 

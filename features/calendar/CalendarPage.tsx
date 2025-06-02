@@ -1,10 +1,10 @@
 
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid"; // 👈 追加
-import interactionPlugin from "@fullcalendar/interaction"; // 👈 select機能に必要
 import { EventClickArg } from "@fullcalendar/core";
-import React, { useRef } from "react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction"; // 👈 select機能に必要
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid"; // 👈 追加
+import { useRef } from "react";
 
 export default function CalendarPage() {
     const calendarRef = useRef<FullCalendar | null>(null);
