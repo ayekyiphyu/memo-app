@@ -221,6 +221,15 @@ export default function DashboardPage() {
                                 お知らせ作製
                             </Button>
                         )}
+
+                        <Button
+                            variant="ghost"
+                            className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all"
+                            onClick={() => router.push('/reservation')}
+                        >
+                            予約する
+                        </Button>
+
                         <Button
                             variant="ghost"
                             className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all"
