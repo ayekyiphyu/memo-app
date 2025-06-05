@@ -216,9 +216,9 @@ export default function DashboardPage() {
                             <Button
                                 variant="ghost"
                                 className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all"
-                                onClick={() => router.push('/notices-lists')}
+                                onClick={() => router.push('/notices')}
                             >
-                                お知らせ一覧
+                                お知らせ作製作製
                             </Button>
                         )}
                         <Button
