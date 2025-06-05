@@ -218,7 +218,7 @@ export default function DashboardPage() {
                                 className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all"
                                 onClick={() => router.push('/notices')}
                             >
-                                お知らせ作製作製
+                                お知らせ作製
                             </Button>
                         )}
                         <Button
