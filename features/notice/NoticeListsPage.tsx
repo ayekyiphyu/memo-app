@@ -55,7 +55,7 @@ export default function NoticeListsPage() {
         router.push(`/notices/edit/${id}`);
     };
     return (
-        <div className="w-full p-8 bg-gray-100 min-h-screen">
+        <div className="w-full p-8 bg-gray-100 h-auto">
             <h2 className="text-center font-bold text-2xl mb-10">お知らせ一覧</h2>
             <div className="max-w-6xl mx-auto space-y-6">
                 {notices.map((notice: { id: number; date: string; title: string; content: string }) => (

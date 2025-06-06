@@ -112,7 +112,7 @@ export default function DashboardPage() {
             } else {
                 alert('Failed to update memo');
             }
-        } catch {
+        } catch {+
             alert('Error updating memo');
         }
     };

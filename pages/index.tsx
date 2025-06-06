@@ -1,11 +1,7 @@
 'use client';
-import React from 'react';
-import dynamic from 'next/dynamic';
-import Header from '@/components/header/Header';
 import Footer from '@/components/footer/Footer';
-import AdminManagementSystem from '@/features/AdminManagementSystem';
-import OrganizationCreateForm from '@/features/OrganizationCreateForm';
-import AdminWorkflowUI from '@/features/AdminWorkflowUI';
+import Header from '@/components/header/Header';
+import dynamic from 'next/dynamic';
 
 
 const DynamicCustomSlider = dynamic(() => import('@/components/slider/Slider'), {
@@ -45,9 +41,9 @@ export default function Home() {
                     <DynamicNoticePage />
                 </div>
 
-                <div className="flex">
-                    <DynamicContractPage />
-                </div>
+
+                <DynamicContractPage />
+
             </main>
             <Footer />
         </>
