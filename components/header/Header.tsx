@@ -25,11 +25,9 @@ export default function Header() {
             }}
         >
             <div className="flex items-center gap-3">
-                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-md">
-                    <span className="text-3xl font-extrabold text-blue-600">M</span>
-                </div>
+
                 <h1 className="text-3xl font-extrabold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent drop-shadow" style={{ marginBottom: "0px", color: "#ffffff" }}>
-                    Memo App
+                    ReserveIt
                 </h1>
             </div>
 

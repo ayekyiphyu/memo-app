@@ -1,8 +1,8 @@
-import ReservationPage from "@/features/reservation/ReservationPage";
+import ReservationsCalendar from "@/features/reservation/ReservationsCalendar";
 export default function Register() {
     return (
         <div>
-            <ReservationPage />
+            <ReservationsCalendar />
         </div>
     );
 }

@@ -14,10 +14,20 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useUIStore } from "@/store/useDrawStore";
-import { LogOut, Plus, User } from 'lucide-react';
+import { LogOut, Plus, User, Calendar } from 'lucide-react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import ReservationsCalendar from '../reservation/ReservationsCalendar';
+
+// Memo type definition
+type Memo = {
+    id: number;
+    title: string;
+    content: string;
+    created_at?: string;
+    updated_at?: string;
+};
 
 // SWR fetcher
 const fetcher = (url: string) =>
@@ -45,7 +55,7 @@ export default function DashboardPage() {
     }
 
     // SWRでメモ一覧取得
-    const { data: memos, isLoading: memosLoading, mutate: mutateMemos } = useSWR(
+    const { data: memos, isLoading: memosLoading, mutate: mutateMemos } = useSWR<Memo[]>(
         `${process.env.NEXT_PUBLIC_API_URL}/memos/`,
         fetcher
     );
@@ -83,7 +93,7 @@ export default function DashboardPage() {
 
     // メモ編集
     const handleEdit = (id: number) => {
-        const memo = memos?.find((m: { id: number; }) => m.id === id);
+        const memo = memos?.find((m: Memo) => m.id === id);
         if (memo) {
             setNewTitle(memo.title);
             setNewContent(memo.content);
@@ -112,20 +122,24 @@ export default function DashboardPage() {
             } else {
                 alert('Failed to update memo');
             }
-        } catch {+
+        } catch {
             alert('Error updating memo');
         }
     };
 
-    // メモ削除
+    // メモ削除 - Fixed URL
     const handleDelete = async (id: React.Key | null | undefined) => {
         if (!confirm('Are you sure you want to delete this memo?')) return;
 
         const csrfToken = getCookie('csrftoken');
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/memos/${id}/delete/`, {
+            // Fixed: Removed '/delete' from URL
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/memos/${id}/`, {
                 method: 'DELETE',
-                headers: csrfToken ? { 'X-CSRFToken': csrfToken } : {},
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(csrfToken ? { 'X-CSRFToken': csrfToken } : {}),
+                },
                 credentials: 'include',
             });
             if (res.ok) {
@@ -227,6 +241,7 @@ export default function DashboardPage() {
                             className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all"
                             onClick={() => router.push('/reservation')}
                         >
+                            <Calendar size={18} />
                             予約する
                         </Button>
 
@@ -288,102 +303,107 @@ export default function DashboardPage() {
                     </Card>
                 </div>
 
-                {/* Memo list with enhanced styling */}
+                {/* Main content area with memos and calendar */}
                 {memosLoading ? (
                     <div className="flex justify-center items-center h-40">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
                     </div>
-                ) : memos && memos.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {memos.map((memo: { id: React.Key | null | undefined; title: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; content: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }) => (
-                            <Card key={memo.id} className="overflow-hidden border border-gray-200 hover:shadow-md transition-shadow">
-                                <CardHeader className="bg-white p-4 border-b">
-                                    <CardTitle className="text-lg font-semibold truncate">{memo.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-4 space-y-4">
-                                    <p className="text-gray-600 whitespace-pre-line line-clamp-3">{memo.content}</p>
-                                    <div className="flex gap-2 pt-2">
-                                        <Button
-                                            variant="outline"
-                                            className="flex-1 text-blue-600 border-blue-200 hover:bg-blue-50"
-                                            onClick={() => typeof memo.id === 'number' && handleEdit(memo.id)}
-                                        >
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            variant="destructive"
-                                            className="flex-1 hover:bg-red-700"
-                                            onClick={() => handleDelete(memo.id)}
-                                        >
-                                            Delete
-                                        </Button>
-                                    </div>
+                ) : (
+                    <div className="space-y-8">
+                        {/* Memos Section */}
+                        {memos && memos.length > 0 && (
+                            <div>
+                                <h2 className="text-2xl font-bold text-gray-900 mb-6">メモ一覧</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {memos.map((memo: Memo) => (
+                                        <Card key={memo.id} className="overflow-hidden border border-gray-200 hover:shadow-md transition-shadow">
+                                            <CardHeader className="bg-white p-4 border-b">
+                                                <CardTitle className="text-lg font-semibold truncate">{memo.title}</CardTitle>
+                                            </CardHeader>
+                                            <CardContent className="p-4 space-y-4">
+                                                <p className="text-gray-600 whitespace-pre-line line-clamp-3">{memo.content}</p>
+                                                <div className="flex gap-2 pt-2">
+                                                    <Button
+                                                        variant="outline"
+                                                        className="flex-1 text-blue-600 border-blue-200 hover:bg-blue-50"
+                                                        onClick={() => handleEdit(memo.id)}
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                    <Button
+                                                        variant="destructive"
+                                                        className="flex-1 hover:bg-red-700"
+                                                        onClick={() => handleDelete(memo.id)}
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Calendar Section */}
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-6">予約カレンダー</h2>
+                            <Card className="border border-gray-200">
+                                <CardContent className="p-6">
+                                    <ReservationsCalendar/>
                                 </CardContent>
                             </Card>
-                        ))}
+                        </div>
                     </div>
-                ) : (
-                    <Card className="border border-dashed border-gray-300 bg-gray-50">
-                        <CardContent className="flex flex-col items-center justify-center py-12">
-                            <h3 className="text-lg font-medium text-gray-800 mb-4">No memos found.</h3>
-                            <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
-                                <DrawerTrigger asChild>
-                                    <Button className="bg-blue-600 hover:bg-blue-700">
-                                        <Plus size={18} className="mr-2" />
-                                        メーモを作成
-                                    </Button>
-                                </DrawerTrigger>
-                            </Drawer>
-                        </CardContent>
-                    </Card>
                 )}
-            </div>
-            {/* Drawer Content */}
-            <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
-                <DrawerContent className="shadow-lg">
-                    <DrawerHeader className="border-b pb-4">
-                        <DrawerTitle className="text-xl font-bold text-center">
-                            {editingId ? '改修メーモ' : 'メーモ'}
-                        </DrawerTitle>
-                    </DrawerHeader>
-                    <div className="p-6 space-y-6 overflow-y-auto max-h-[70vh]">
-                        <div>
-                            <Label htmlFor="title" className="text-sm font-medium mb-2 block">タイトル</Label>
-                            <Input
-                                id="title"
-                                value={newTitle}
-                                onChange={(e) => setNewTitle(e.target.value)}
-                                placeholder="メーモのタイトル"
-                                className="border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                            />
-                        </div>
-                        <div>
-                            <Label htmlFor="content" className="text-sm font-medium mb-2 block">内容</Label>
-                            <Textarea
-                                id="content"
-                                value={newContent}
-                                onChange={(e) => setNewContent(e.target.value)}
-                                placeholder="メーモの内容"
-                                rows={6}
-                                className="border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                            />
-                        </div>
-                        <div className="flex gap-3 pt-2">
-                            <Button
-                                onClick={editingId ? handleUpdate : handleCreate}
-                                className="flex-1 bg-blue-600 hover:bg-blue-700"
-                            >
-                                {editingId ? '更新' : '作成'}
-                            </Button>
-                            <DrawerClose asChild>
-                                <Button variant="outline" className="flex-1" onClick={resetForm}>
-                                    キャンセル
+
+                {/* Drawer Content */}
+                <Drawer open={isDrawerOpen} onOpenChange={setDrawerOpen}>
+                    <DrawerContent className="shadow-lg">
+                        <DrawerHeader className="border-b pb-4">
+                            <DrawerTitle className="text-xl font-bold text-center">
+                                {editingId ? '改修メーモ' : 'メーモ'}
+                            </DrawerTitle>
+                        </DrawerHeader>
+                        <div className="p-6 space-y-6 overflow-y-auto max-h-[70vh]">
+                            <div>
+                                <Label htmlFor="title" className="text-sm font-medium mb-2 block">タイトル</Label>
+                                <Input
+                                    id="title"
+                                    value={newTitle}
+                                    onChange={(e) => setNewTitle(e.target.value)}
+                                    placeholder="メーモのタイトル"
+                                    className="border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="content" className="text-sm font-medium mb-2 block">内容</Label>
+                                <Textarea
+                                    id="content"
+                                    value={newContent}
+                                    onChange={(e) => setNewContent(e.target.value)}
+                                    placeholder="メーモの内容"
+                                    rows={6}
+                                    className="border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div className="flex gap-3 pt-2">
+                                <Button
+                                    onClick={editingId ? handleUpdate : handleCreate}
+                                    className="flex-1 bg-blue-600 hover:bg-blue-700"
+                                >
+                                    {editingId ? '更新' : '作成'}
                                 </Button>
-                            </DrawerClose>
+                                <DrawerClose asChild>
+                                    <Button variant="outline" className="flex-1" onClick={resetForm}>
+                                        キャンセル
+                                    </Button>
+                                </DrawerClose>
+                            </div>
                         </div>
-                    </div>
-                </DrawerContent>
-            </Drawer>
+                    </DrawerContent>
+                </Drawer>
+            </div>
         </div>
     );
 }
