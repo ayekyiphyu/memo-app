@@ -277,7 +277,7 @@ export default function ReservationsCalendar() {
                         selectable={true}
                         selectMirror={true}
                         businessHours={{
-                            daysOfWeek: [1, 2, 3, 4, 5],
+                            daysOfWeek: [0, 1, 2, 3, 4, 5, 6], // All days
                             startTime: "09:00",
                             endTime: "18:00"
                         }}

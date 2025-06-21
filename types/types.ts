@@ -2,7 +2,7 @@ export interface FormData{
     email: string;
     password: string;
 }
-    
+
 export interface Memo {
     id: number;
     title: string;
@@ -23,3 +23,14 @@ export interface RegisterFormData {
     password2:string;
 }
 
+export interface Booking {
+   id: number;
+    title: string;
+    date: string;
+    start_time: string;
+    end_time: string;
+    username?: string;
+    user?: number;
+    description?: string;
+    created_at?: string;
+}
