@@ -1,54 +1,63 @@
+'use client';
 
-import { EventClickArg } from "@fullcalendar/core";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction"; // 👈 select機能に必要
-import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid"; // 👈 追加
-import { useRef } from "react";
+import { useEffect, useState } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { EventInput } from '@fullcalendar/core';
 
 export default function CalendarPage() {
-    const calendarRef = useRef<FullCalendar | null>(null);
+    const [events, setEvents] = useState<EventInput[]>([]);
 
-    const handleClick = (arg: EventClickArg) => {
-        alert(`イベント: ${arg.event.title}`);
-    };
+    useEffect(() => {
+        const fetchBookings = async () => {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/calendar/`, {
+                    headers: { 'Accept': 'application/json' },
+                    credentials: 'include', // optional if you use cookies
+                });
+                const data = await res.json();
 
-    const handleSelect = (arg: any) => {
-        alert(`選択された日付: ${arg.startStr} ～ ${arg.endStr}`);
-    };
+                const mappedEvents = data.map((booking: any) => ({
+                    id: booking.id.toString(),
+                    title: booking.title,
+                    start: `${booking.date}T${booking.start_time}`,
+                    end: `${booking.date}T${booking.end_time}`,
+                    backgroundColor: '#6b7280',
+                    borderColor: '#4b5563',
+                    textColor: '#fff'
+                }));
+
+                setEvents(mappedEvents);
+            } catch (error) {
+                console.error('Error fetching bookings:', error);
+            }
+        };
+
+        fetchBookings();
+    }, []);
 
     return (
         <div className="w-full bg-gray-100 flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-extrabold text-gray-900 text-center">
-                Calendar
+            <h1 className="text-4xl font-extrabold text-gray-900 text-center mb-6">
+                公開予約カレンダー
             </h1>
-            <FullCalendar
-                locale="ja"
-                allDayText="終日"
-                height="auto"
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} // 👈 修正ポイント
-                initialView="dayGridMonth"
-                slotDuration="00:30:00"
-                selectable={true}
-                businessHours={{
-                    daysOfWeek: [1, 2, 3, 4, 5],
-                    startTime: "00:00",
-                    endTime: "24:00"
-                }}
-                weekends={true}
-                titleFormat={{
-                    year: "numeric",
-                    month: "short"
-                }}
-                headerToolbar={{
-                    start: "title",
-                    center: "prev,next today",
-                    end: "dayGridMonth,timeGridWeek"
-                }}
-                ref={calendarRef}
-                eventClick={handleClick}
-                select={handleSelect}
-            />
+            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-5xl">
+                <FullCalendar
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                    initialView="dayGridMonth"
+                    events={events}
+                    locale="ja"
+                    height="auto"
+                    headerToolbar={{
+                        start: 'prev,next today',
+                        center: 'title',
+                        end: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    }}
+                    eventClick={(info) => alert(`予約タイトル: ${info.event.title}`)}
+                />
+            </div>
         </div>
     );
 }
