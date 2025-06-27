@@ -282,6 +282,9 @@ export default function ReservationsCalendar() {
                             endTime: "18:00"
                         }}
                         weekends={true}
+                        validRange={{
+                            start: new Date().toISOString().split('T')[0] // Today's date
+                        }}
                         titleFormat={{ year: "numeric", month: "short" }}
                         headerToolbar={{
                             start: "prev,next today",
@@ -308,8 +311,8 @@ export default function ReservationsCalendar() {
                         eventClick={handleClick}
                         select={handleSelect}
                         events={reservations?.map(r => convertReservationToEvent(r, currentUser?.id)) || []}
-                        selectConstraint="businessHours"
-                        eventConstraint="businessHours"
+                        // selectConstraint="businessHours"
+                        // eventConstraint="businessHours"
                         nowIndicator={true}
                         editable={false}
                         eventResizableFromStart={false}
