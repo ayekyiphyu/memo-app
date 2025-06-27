@@ -14,11 +14,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useUIStore } from "@/store/useDrawStore";
-import { LogOut, Plus, User, Calendar } from 'lucide-react';
+import { Calendar, LogOut, Plus, User } from 'lucide-react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import ReservationsCalendar from '../reservation/ReservationsCalendar';
+
 
 // Memo type definition
 type Memo = {
@@ -350,7 +351,7 @@ export default function DashboardPage() {
                             <h2 className="text-2xl font-bold text-gray-900 mb-6">予約カレンダー</h2>
                             <Card className="border border-gray-200">
                                 <CardContent className="p-6">
-                                    <ReservationsCalendar/>
+                                    <ReservationsCalendar />
                                 </CardContent>
                             </Card>
                         </div>
