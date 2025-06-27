@@ -167,6 +167,9 @@ export default function CalendarPage() {
                                         startTime: '09:00',
                                         endTime: '18:00',
                                     }}
+                                    validRange={{
+                                        start: new Date().toISOString().split('T')[0] // Today's date
+                                    }}
                                     eventDidMount={(info) => {
                                         // Add hover effect to events
                                         info.el.style.cursor = 'pointer';

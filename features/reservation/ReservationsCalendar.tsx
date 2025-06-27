@@ -86,6 +86,11 @@ export default function ReservationsCalendar() {
     const [selectedEvent, setSelectedEvent] = useState<EventClickArg | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // New states for create reservation modal
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [selectedSlot, setSelectedSlot] = useState<DateSelectArg | null>(null);
+    const [reservationTitle, setReservationTitle] = useState('');
+
     // 現在のユーザー情報を取得
     const { data: currentUser } = useSWR<User>(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/userinfo/`,
@@ -159,9 +164,13 @@ export default function ReservationsCalendar() {
     };
 
     const handleSelect = useCallback(async (arg: DateSelectArg) => {
-        const title = prompt("予約タイトルを入力してください:");
-        if (!title) {
-            calendarRef.current?.getApi().unselect();
+        setSelectedSlot(arg);
+        setIsCreateModalOpen(true);
+    }, []);
+
+    const handleCreateReservation = async () => {
+        if (!reservationTitle.trim() || !selectedSlot) {
+            setError('予約タイトルを入力してください。');
             return;
         }
 
@@ -169,10 +178,10 @@ export default function ReservationsCalendar() {
         setError(null);
 
         const reservationData = {
-            title: title,
-            date: arg.start.toISOString().split('T')[0],
-            start_time: arg.start.toTimeString().split(' ')[0],
-            end_time: arg.end.toTimeString().split(' ')[0],
+            title: reservationTitle.trim(),
+            date: selectedSlot.start.toISOString().split('T')[0],
+            start_time: selectedSlot.start.toTimeString().split(' ')[0],
+            end_time: selectedSlot.end.toTimeString().split(' ')[0],
         };
 
         const csrfToken = getCookie('csrftoken');
@@ -191,6 +200,7 @@ export default function ReservationsCalendar() {
             if (res.ok) {
                 await mutateReservation();
                 setError(null);
+                handleCloseCreateModal();
             } else {
                 const errorData = await res.json().catch(() => ({}));
                 setError(errorData.error || errorData.detail || '予約の作成に失敗しました。');
@@ -200,9 +210,16 @@ export default function ReservationsCalendar() {
             setError('サーバー通信エラーが発生しました。');
         } finally {
             setIsCreating(false);
-            calendarRef.current?.getApi().unselect();
         }
-    }, [mutateReservation]);
+    };
+
+    const handleCloseCreateModal = () => {
+        setIsCreateModalOpen(false);
+        setReservationTitle('');
+        setSelectedSlot(null);
+        setError(null);
+        calendarRef.current?.getApi().unselect();
+    };
 
     const displayError = error || fetchError?.message;
 
@@ -311,8 +328,6 @@ export default function ReservationsCalendar() {
                         eventClick={handleClick}
                         select={handleSelect}
                         events={reservations?.map(r => convertReservationToEvent(r, currentUser?.id)) || []}
-                        // selectConstraint="businessHours"
-                        // eventConstraint="businessHours"
                         nowIndicator={true}
                         editable={false}
                         eventResizableFromStart={false}
@@ -321,10 +336,67 @@ export default function ReservationsCalendar() {
                     />
                 </div>
 
+                {/* Create Reservation Modal */}
+                {isCreateModalOpen && selectedSlot && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+                            <h2 className="text-xl font-bold mb-4">新しい予約を作成</h2>
+
+                            <div className="space-y-2 mb-4 text-sm text-gray-600">
+                                <p><strong>日付:</strong> {selectedSlot.start.toLocaleDateString('ja-JP')}</p>
+                                <p><strong>時間:</strong> {selectedSlot.start.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })} - {selectedSlot.end.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}</p>
+                            </div>
+
+                            <div className="mb-4">
+                                <label htmlFor="reservation-title" className="block text-sm font-medium text-gray-700 mb-2">
+                                    予約タイトル
+                                </label>
+                                <input
+                                    id="reservation-title"
+                                    type="text"
+                                    value={reservationTitle}
+                                    onChange={(e) => setReservationTitle(e.target.value)}
+                                    placeholder="予約タイトルを入力してください"
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    autoFocus
+                                    onKeyPress={(e) => {
+                                        if (e.key === 'Enter' && reservationTitle.trim()) {
+                                            handleCreateReservation();
+                                        }
+                                    }}
+                                />
+                            </div>
+
+                            {error && (
+                                <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded mb-4 text-sm">
+                                    {error}
+                                </div>
+                            )}
+
+                            <div className="flex justify-end space-x-3">
+                                <button
+                                    onClick={handleCloseCreateModal}
+                                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                    disabled={isCreating}
+                                >
+                                    キャンセル
+                                </button>
+                                <button
+                                    onClick={handleCreateReservation}
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    disabled={isCreating || !reservationTitle.trim()}
+                                >
+                                    {isCreating ? '作成中...' : '予約を作成'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Modal for reservation detail */}
                 {isModalOpen && selectedEvent && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+                        <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
                             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                                 予約詳細
                                 {selectedEvent.event.extendedProps?.isOwn ? (
