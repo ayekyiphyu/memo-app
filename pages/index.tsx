@@ -44,12 +44,7 @@ export default function Home() {
                 <div className='flex justify-center'>
                     <DynamicNoticePage />
                 </div>
-
-
-
                 <DynamicContractPage />
-
-
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button

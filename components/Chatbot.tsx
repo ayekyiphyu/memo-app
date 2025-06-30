@@ -60,7 +60,7 @@ const Chatbot: React.FC = () => {
 
     return (
         // The main container for the chat interface
-        <div style={{ display: 'flex', flexDirection: 'column', height: '60vh', minHeight: '400px', backgroundColor: 'white' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', height: '60vh', minHeight: '400px', backgroundColor: 'white', zIndex: 9999999 }}>
 
             {/* Message Display Area */}
             <div style={{ flexGrow: 1, padding: '16px', overflowY: 'auto' }}>
