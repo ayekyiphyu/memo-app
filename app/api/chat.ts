@@ -4,9 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 // Access your API key as an environment variable
-const genAI = new GoogleGenerativeAI(
-  process.env.GOOGLE_GEMINI_API_KEY as string
-);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 
 type ResponseData = {
   reply: string;
