@@ -1,8 +1,8 @@
 'use client';
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { useContactStore } from "@/store/useContactFormStore";
 import getCookie from "@/types/getCookies";
 
@@ -47,6 +47,7 @@ export default function ContactForm() {
                 value={name}
                 onChange={(e) => setField("name", e.target.value)}
                 required
+                className="!border-1 border-solid"
             />
 
             <Input
@@ -55,6 +56,7 @@ export default function ContactForm() {
                 value={email}
                 onChange={(e) => setField("email", e.target.value)}
                 required
+                className="border-1 border-solid"
             />
 
             <Textarea
@@ -63,10 +65,11 @@ export default function ContactForm() {
                 onChange={(e) => setField("message", e.target.value)}
                 rows={5}
                 required
+                className="border-1 border-solid"
             />
 
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full h-[50px]">
                 Submit
             </Button>
         </form>

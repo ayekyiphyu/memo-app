@@ -1,17 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Loader2, User, LogIn } from 'lucide-react';
-import { FormData } from '@/types/types';
-import useSWRMutation from 'swr/mutation';
 import { useUserStore } from "@/store/userStore";
+import { FormData } from '@/types/types';
+import { Loader2, LogIn, User } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import useSWRMutation from 'swr/mutation';
 
 // Get cookie function
 function getCookie(name: string) {
@@ -187,10 +187,18 @@ const LoginPage = () => {
                             <Link href="/register" className="block">
                                 <Button
                                     variant="outline"
-                                    className="w-full flex items-center justify-center gap-2"
+                                    className="w-full flex items-center justify-center gap-2 cursor-pointer"
                                 >
                                     <User className="h-4 w-4" />
                                     新規登録
+                                </Button>
+                            </Link> <Link href="/" className="block">
+                                <Button
+                                    variant="outline"
+                                    className="w-full flex items-center justify-center gap-2 cursor-pointer"
+                                >
+                                    <User className="h-4 w-4" />
+                                    Back to HomePage
                                 </Button>
                             </Link>
                         </div>
