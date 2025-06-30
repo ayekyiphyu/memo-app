@@ -47,73 +47,127 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  /* --background: oklch(1 0 0); */
-  --background: #f9f9fb;
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.75rem;
+
+  /* Enhanced Background Colors */
+  --background: #fafbff;
+  --foreground: #1e293b;
+
+  /* Beautiful Card Colors */
+  --card: #ffffff;
+  --card-foreground: #1e293b;
+
+  /* Enhanced Popover Colors */
+  --popover: #ffffff;
+  --popover-foreground: #1e293b;
+
+  /* Beautiful Primary Colors - Matching Header/Footer Blue */
+  --primary: #4f8cfb;
+  --primary-foreground: #ffffff;
+
+  /* Elegant Secondary Colors - Complementary to main blue */
+  --secondary: #f0f4ff;
+  --secondary-foreground: #475569;
+
+  /* Subtle Muted Colors */
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+
+  /* Attractive Accent Colors - Light blue theme */
+  --accent: #e6f0ff;
+  --accent-foreground: #2563eb;
+
+  /* Enhanced Destructive Colors */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  /* Modern Border and Input Colors */
+  --border: #e2e8f0;
+  --input: #f1f5f9;
+  --ring: #4f8cfb;
+
+  /* Beautiful Chart Colors - Coordinated with header blue */
+  --chart-1: #4f8cfb;
+  /* Your header blue */
+  --chart-2: #10b981;
+  /* Emerald */
+  --chart-3: #f59e0b;
+  /* Amber */
+  --chart-4: #ef4444;
+  /* Red */
+  --chart-5: #8b5cf6;
+  /* Violet */
+
+  /* Enhanced Sidebar Colors - Matching theme */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #334155;
+  --sidebar-primary: #4f8cfb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f0f4ff;
+  --sidebar-accent-foreground: #475569;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #4f8cfb;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Dark Background Colors */
+  --background: #0f172a;
+  --foreground: #f8fafc;
+
+  /* Dark Card Colors */
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+
+  /* Dark Popover Colors */
+  --popover: #1e293b;
+  --popover-foreground: #f8fafc;
+
+  /* Dark Primary Colors - Lighter version of header blue for dark mode */
+  --primary: #6fa0fc;
+  --primary-foreground: #0f172a;
+
+  /* Dark Secondary Colors */
+  --secondary: #334155;
+  --secondary-foreground: #f1f5f9;
+
+  /* Dark Muted Colors */
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+
+  /* Dark Accent Colors */
+  --accent: #1e40af;
+  --accent-foreground: #dbeafe;
+
+  /* Dark Destructive Colors */
+  --destructive: #dc2626;
+  --destructive-foreground: #fef2f2;
+
+  /* Dark Border and Input Colors */
+  --border: #334155;
+  --input: #1e293b;
+  --ring: #6fa0fc;
+
+  /* Dark Chart Colors - Coordinated with header blue */
+  --chart-1: #6fa0fc;
+  /* Light version of your header blue */
+  --chart-2: #34d399;
+  /* Light Emerald */
+  --chart-3: #fbbf24;
+  /* Light Amber */
+  --chart-4: #f87171;
+  /* Light Red */
+  --chart-5: #a78bfa;
+  /* Light Violet */
+
+  /* Dark Sidebar Colors - Matching theme */
+  --sidebar: #1e293b;
+  --sidebar-foreground: #e2e8f0;
+  --sidebar-primary: #6fa0fc;
+  --sidebar-primary-foreground: #0f172a;
+  --sidebar-accent: #334155;
+  --sidebar-accent-foreground: #f1f5f9;
+  --sidebar-border: #475569;
+  --sidebar-ring: #6fa0fc;
 }
 
 @layer base {
@@ -122,6 +176,96 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
+  }
+
+  /* Enhanced scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ring/60;
+  }
+}
+
+@layer components {
+
+  /* Header/Footer styling to match your design */
+  .header-footer-style {
+    background: #4f8cfb;
+    box-shadow: 0 4px 24px 0 rgba(80, 143, 245, 0.15);
+    color: white;
+  }
+
+  /* Complementary blue gradients matching your header color */
+  .gradient-bg-1 {
+    background: linear-gradient(135deg, #4f8cfb 0%, #6fa0fc 100%);
+  }
+
+  .gradient-bg-2 {
+    background: linear-gradient(135deg, #4f8cfb 0%, #8b5cf6 100%);
+  }
+
+  .gradient-bg-3 {
+    background: linear-gradient(135deg, #e6f0ff 0%, #f0f4ff 100%);
+  }
+
+  .gradient-bg-4 {
+    background: linear-gradient(135deg, #4f8cfb 0%, #10b981 100%);
+  }
+
+  /* Enhanced button styles matching your theme */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200;
+    box-shadow: 0 4px 16px 0 rgba(79, 140, 251, 0.2);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 6px 24px 0 rgba(79, 140, 251, 0.3);
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-all duration-200;
+  }
+
+  /* Enhanced card styles with blue accent */
+  .card-elevated {
+    @apply bg-card border border-border shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm;
+    box-shadow: 0 4px 16px 0 rgba(79, 140, 251, 0.08);
+  }
+
+  .card-elevated:hover {
+    box-shadow: 0 8px 32px 0 rgba(79, 140, 251, 0.12);
+  }
+
+  /* Blue-themed focus styles */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  /* Notice component specific styles */
+  .notice-container {
+    background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 50%, #f8faff 100%);
+  }
+
+  .notice-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(79, 140, 251, 0.1);
+    box-shadow: 0 4px 16px 0 rgba(79, 140, 251, 0.08);
+  }
+
+  .notice-card:hover {
+    border-color: rgba(79, 140, 251, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(79, 140, 251, 0.15);
   }
 }

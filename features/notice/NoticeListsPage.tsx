@@ -55,20 +55,23 @@ export default function NoticeListsPage() {
         router.push(`/notices/edit/${id}`);
     };
     return (
-        <div className="w-full p-8 bg-gray-100 h-auto">
-            <h2 className="text-center font-bold text-2xl mb-10">お知らせ一覧</h2>
+        <div className="w-full p-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 h-auto">
+            <h2 className="text-center font-bold text-2xl mb-10 text-gray-800 drop-shadow-sm">お知らせ一覧</h2>
             <div className="max-w-6xl mx-auto space-y-6">
                 {notices.map((notice: { id: number; date: string; title: string; content: string }) => (
-                    <Card key={notice.id} className="p-4">
+                    <Card key={notice.id} className="p-6 bg-white/90 backdrop-blur-sm shadow-lg border border-blue-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 rounded-xl">
                         <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0">
-                            <div>
-                                <span className="text-sm text-gray-500 whitespace-nowrap">
-                                    {new Date(notice.date).toLocaleDateString()}
-                                </span>
-                                <CardTitle className="text-base font-semibold text-gray-900 truncate">
+                            <div className="w-full">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                    <span className="text-sm text-blue-600 font-medium whitespace-nowrap bg-blue-50 px-3 py-1 rounded-full">
+                                        {new Date(notice.date).toLocaleDateString()}
+                                    </span>
+                                </div>
+                                <CardTitle className="text-lg font-bold text-gray-800 mb-2 hover:text-blue-700 transition-colors duration-200">
                                     {notice.title}
                                 </CardTitle>
-                                <p className="text-gray-700 whitespace-pre-line mt-1">{notice.content}</p>
+                                <p className="text-gray-600 whitespace-pre-line leading-relaxed">{notice.content}</p>
                             </div>
                         </CardHeader>
                     </Card>

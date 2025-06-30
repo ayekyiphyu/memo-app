@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useHeaderStore } from "@/store/userHeaderStore";
-import { useRouter } from "next/navigation";
 import { LogIn, UserPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
     const isLoggedIn = useHeaderStore((state) => state.isLoggedIn);
@@ -20,8 +20,9 @@ export default function Header() {
         <header
             className="w-full flex items-center justify-between px-8 py-4 shadow-lg"
             style={{
-                background: "linear-gradient(120deg, #4f8cfb 0%, #235390 50%, #a770ef 100%)",
+                background: "#4f8cfb", // Beautiful, soft blue
                 boxShadow: "0 4px 24px 0 rgba(80, 143, 245, 0.15)",
+                color: "white", // Ensure text remains visible
             }}
         >
             <div className="flex items-center gap-3">
