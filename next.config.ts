@@ -4,6 +4,7 @@ import path from "path";
 const nextConfig: NextConfig = {
   output: "export",
   appDir: true,
+  devIndicators: false,
   turbopack: {},
   webpack: (config) => {
     config.resolve.alias["@components"] = path.join(__dirname, "components");
