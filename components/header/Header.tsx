@@ -13,13 +13,12 @@ export default function Header() {
     };
 
     const handleSignUp = () => {
-        router.push("/contact-form");
+        router.push("/register");
     };
 
     const handleform = () => {
-
+        router.push("/contact-form");
     }
-
 
     return (
         <header
