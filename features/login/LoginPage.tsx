@@ -195,9 +195,9 @@ const LoginPage = () => {
                             </Link> <Link href="/" className="block">
                                 <Button
                                     variant="outline"
-                                    className="w-full flex items-center justify-center gap-2 cursor-pointer"
+                                    className="mt-[10px] w-full flex items-center justify-center gap-2 cursor-pointer"
                                 >
-                                    <User className="h-4 w-4" />
+                                    <User className=" h-4 w-4" />
                                     Back to HomePage
                                 </Button>
                             </Link>
