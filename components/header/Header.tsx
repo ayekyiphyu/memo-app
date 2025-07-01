@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useHeaderStore } from "@/store/userHeaderStore";
-import { LogIn, UserPlus } from "lucide-react";
+import { LogIn, Mail, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function Header() {
@@ -13,8 +13,13 @@ export default function Header() {
     };
 
     const handleSignUp = () => {
-        router.push("/register");
+        router.push("/contact-form");
     };
+
+    const handleform = () => {
+
+    }
+
 
     return (
         <header
@@ -47,6 +52,13 @@ export default function Header() {
                     >
                         <UserPlus className="w-5 h-5" />
                         新規登録
+                    </Button>
+                    <Button
+                        onClick={handleform}
+                        className="cursor-pointer  group flex items-center gap-3 bg-gradient-to-b from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white font-bold px-8 py-4 rounded-xl shadow-[0_6px_0_#b45309,0_12px_24px_rgba(180,83,9,0.3)] hover:shadow-[0_4px_0_#b45309,0_8px_16px_rgba(180,83,9,0.5)] active:shadow-[0_2px_0_#b45309,0_4px_8px_rgba(180,83,9,0.3)] hover:translate-y-[-2px] active:translate-y-[2px] transition-all duration-150"
+                    >
+                        <Mail className="w-6 h-6 group-hover:animate-bounce" />
+                        <span className="text-lg">問い合わせ</span>
                     </Button>
                 </div>
             )}
