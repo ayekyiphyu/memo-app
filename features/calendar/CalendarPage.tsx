@@ -7,12 +7,25 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useEffect, useState } from 'react';
 
+
+
 // Toast Component (shadcn/ui style)
 interface ToastProps {
     title: string;
     description?: string;
     onClose: () => void;
 }
+
+
+interface WeatherData {
+    temperature: number;
+    condition: string;
+    description: string;
+    windSpeed: number;
+    icon: string;
+    source: string;
+}
+
 
 const Toast = ({ title, description, onClose }: ToastProps) => {
     useEffect(() => {
@@ -50,6 +63,104 @@ const Toast = ({ title, description, onClose }: ToastProps) => {
                     </button>
                 </div>
             </div>
+        </div>
+    );
+};
+
+// WeatherWidget component moved to top-level
+const WeatherWidget = () => {
+    const [weather, setWeather] = useState<WeatherData | null>(null);
+    const [weatherLoading, setWeatherLoading] = useState(false);
+    const [weatherError, setWeatherError] = useState<string | null>(null);
+
+    function getWeatherIcon(weatherCode: number): string {
+        if (weatherCode === 0) return "☀️"; // Clear
+        if ([1, 2, 3].includes(weatherCode)) return "Sun"; // Partly cloudy
+        if ([45, 48].includes(weatherCode)) return "Fog"; // Fog
+        if ([51, 53, 55].includes(weatherCode)) return "CloudDrizzle"; // Drizzle
+        if ([61, 63, 65].includes(weatherCode)) return "Rain"; // Rain
+        if ([71, 73, 75].includes(weatherCode)) return "Snow"; // Snow
+        if ([80, 81, 82].includes(weatherCode)) return "Showers"; // Showers
+        if ([95, 96, 99].includes(weatherCode)) return "Thunderstorm"; // Thunderstorm
+        return "❓"; // Unknown
+    }
+
+
+    const fetchGoogleWeatherData = async () => {
+        try {
+            const lat = 35.6895; // Tokyo
+            const lon = 139.6917;
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Weather API error');
+
+            const data = await response.json();
+
+            setWeather({
+                temperature: data.current_weather.temperature,
+                condition: "See icon", // Open-Meteo does not provide description
+                description: "Tokyo",
+                windSpeed: data.current_weather.windspeed,
+                icon: getWeatherIcon(data.current_weather.weathercode),
+
+                source: 'Today Weather'
+            });
+        } catch (error) {
+            console.error(error);
+            setWeatherError("Failed to fetch weather data");
+            setWeather(null);
+        } finally {
+            setWeatherLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchGoogleWeatherData();
+
+    }, []);
+
+    if (weatherLoading) {
+        return (
+            <div className="p-4 rounded border shadow max-w-sm mx-auto text-center">
+                <div className="animate-pulse">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto mb-2"></div>
+                    <div className="h-8 bg-gray-200 rounded w-1/2 mx-auto mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-2/3 mx-auto"></div>
+                </div>
+            </div>
+        );
+    }
+
+    if (weatherError) {
+        return (
+            <div className="p-4 rounded border shadow max-w-sm mx-auto text-center">
+                <p className="text-red-500 text-sm">{weatherError}</p>
+                <button
+                    onClick={fetchGoogleWeatherData}
+                    className="mt-2 px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+                >
+                    Retry
+                </button>
+            </div>
+        );
+    }
+
+    if (!weather) {
+        return (
+            <div className="p-4 rounded border shadow max-w-sm mx-auto text-center">
+                <p className="text-gray-500 text-sm">No weather data available</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="p-4 rounded border shadow max-w-sm mx-auto text-center">
+            <h2 className="text-xl font-bold mb-2">{weather.source}</h2>
+            <div className="text-4xl mb-2">{weather.icon}</div>
+            <p className="text-lg">{weather.description}</p>
+            <p className="text-2xl font-bold">{weather.temperature}°C</p>
+            <p>Wind: {weather.windSpeed} m/s</p>
         </div>
     );
 };
@@ -116,6 +227,13 @@ export default function CalendarPage() {
                                     <h2 className="text-2xl font-semibold text-gray-800">
                                         予約カレンダー
                                     </h2>
+                                </div>
+
+                                <div>
+
+                                    <div className="p-4 rounded border shadow max-w-sm mx-auto text-center">
+                                        <WeatherWidget />
+                                    </div>
                                 </div>
 
 
