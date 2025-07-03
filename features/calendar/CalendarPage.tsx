@@ -1,13 +1,14 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import { RadioStation } from "@/lib/type";
 import { EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { useEffect, useState } from 'react';
+import { Cloud, CloudDrizzle, CloudFog, CloudLightning, CloudRain, HelpCircle, Snowflake, Sun } from "lucide-react";
+import { ReactElement, useEffect, useState } from 'react';
 
 
 // Toast Component (shadcn/ui style)
@@ -23,7 +24,7 @@ interface WeatherData {
     condition: string;
     description: string;
     windSpeed: number;
-    icon: string;
+    icon: ReactElement;
     source: string;
 }
 
@@ -74,17 +75,18 @@ const WeatherWidget = () => {
     const [weatherLoading, setWeatherLoading] = useState(false);
     const [weatherError, setWeatherError] = useState<string | null>(null);
 
-    function getWeatherIcon(weatherCode: number): string {
-        if (weatherCode === 0) return "☀️"; // Clear
-        if ([1, 2, 3].includes(weatherCode)) return "Sun"; // Partly cloudy
-        if ([45, 48].includes(weatherCode)) return "Fog"; // Fog
-        if ([51, 53, 55].includes(weatherCode)) return "CloudDrizzle"; // Drizzle
-        if ([61, 63, 65].includes(weatherCode)) return "Rain"; // Rain
-        if ([71, 73, 75].includes(weatherCode)) return "Snow"; // Snow
-        if ([80, 81, 82].includes(weatherCode)) return "Showers"; // Showers
-        if ([95, 96, 99].includes(weatherCode)) return "Thunderstorm"; // Thunderstorm
-        return "❓"; // Unknown
+    function getWeatherIcon(weatherCode: number): ReactElement {
+        if (weatherCode === 0) return <Sun className="w-6 h-6 text-yellow-500" />; // Clear
+        if ([1, 2, 3].includes(weatherCode)) return <Cloud className="w-6 h-6 text-gray-500" />; // Partly cloudy
+        if ([45, 48].includes(weatherCode)) return <CloudFog className="w-6 h-6 text-gray-400" />; // Fog
+        if ([51, 53, 55].includes(weatherCode)) return <CloudDrizzle className="w-6 h-6 text-blue-400" />; // Drizzle
+        if ([61, 63, 65].includes(weatherCode)) return <CloudRain className="w-6 h-6 text-blue-600" />; // Rain
+        if ([71, 73, 75].includes(weatherCode)) return <Snowflake className="w-6 h-6 text-blue-300" />; // Snow
+        if ([80, 81, 82].includes(weatherCode)) return <CloudRain className="w-6 h-6 text-blue-500" />; // Showers
+        if ([95, 96, 99].includes(weatherCode)) return <CloudLightning className="w-6 h-6 text-yellow-600" />; // Thunderstorm
+        return <HelpCircle className="w-6 h-6 text-gray-400" />; // Unknown
     }
+
 
 
     const fetchGoogleWeatherData = async () => {
@@ -104,7 +106,6 @@ const WeatherWidget = () => {
                 description: "Tokyo",
                 windSpeed: data.current_weather.windspeed,
                 icon: getWeatherIcon(data.current_weather.weathercode),
-
                 source: 'Today Weather'
             });
         } catch (error) {
@@ -230,14 +231,16 @@ export default function CalendarPage() {
             <div className="max-w-4xl mx-auto p-4 space-y-6">
                 <div className="bg-white border rounded-xl shadow p-6">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold text-gray-800">🎵 Radio Player (Compact)</h2>
-                        <Button
-                            variant="default"
-                            onClick={fetchRadioStations}
-                            disabled={isLoading}
-                        >
-                            {isLoading ? 'Loading...' : 'Fetch Stations'}
-                        </Button>
+                        <div className="flex gap-5 border rounded-xl shadow p-6 text-lg font-semibold text-gray-800">🎵 Radio Player (Compact)
+                            <Button
+                                variant="default"
+                                onClick={fetchRadioStations}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? 'Loading...' : 'Play Radio'}
+                            </Button>
+                        </div>
+
                         <div className="bg-white border rounded-xl shadow p-6">
                             <WeatherWidget />
                         </div>
