@@ -1,12 +1,13 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { RadioStation } from "@/lib/type";
 import { EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useEffect, useState } from 'react';
-
 
 
 // Toast Component (shadcn/ui style)
@@ -205,10 +206,87 @@ export default function CalendarPage() {
         fetchBookings();
     }, []);
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [stations, setStations] = useState<RadioStation[]>([]); // Add type here
+    const [currentStation, setCurrentStation] = useState<RadioStation | null>(null);
+
+    const fetchRadioStations = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch('https://de1.api.radio-browser.info/json/stations/search?limit=20&order=clickcount&reverse=true');
+            const data: RadioStation[] = await response.json(); // Type the response
+            setStations(data);
+            console.log('Radio stations:', data);
+        } catch (error) {
+            console.error('Error fetching radio stations:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="min-h-screen">
             {/* Header Section */}
+            <div className="max-w-4xl mx-auto p-4 space-y-6">
+                <div className="bg-white border rounded-xl shadow p-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-lg font-semibold text-gray-800">🎵 Radio Player (Compact)</h2>
+                        <Button
+                            variant="default"
+                            onClick={fetchRadioStations}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Loading...' : 'Fetch Stations'}
+                        </Button>
+                        <div className="bg-white border rounded-xl shadow p-6">
+                            <WeatherWidget />
+                        </div>
+                    </div>
 
+                    {stations.length > 0 && (
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-medium text-gray-700">Top Stations</h3>
+                            <div className="space-y-2">
+                                {stations.slice(0, 5).map((station) => (
+                                    <div
+                                        key={station.stationuuid}
+                                        className={`flex flex-row items-center justify-between cursor-pointer px-3 py-2 rounded transition ${currentStation?.stationuuid === station.stationuuid
+                                            ? 'bg-blue-100 text-blue-700 font-semibold'
+                                            : 'hover:bg-gray-100'
+                                            }`}
+                                        onClick={() => setCurrentStation(station)}
+                                    >
+                                        <div className="flex flex-row items-center gap-2">
+                                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                            <span>{station.name}</span>
+                                        </div>
+                                        <span className="text-xs text-gray-500">{station.country}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {currentStation && (
+                        <div className="mt-4 flex flex-row items-center gap-4 bg-gray-50 rounded-lg p-4">
+                            <div className="flex-1">
+                                <h3 className="text-sm font-medium text-gray-700">
+                                    Now Playing: <span className="font-semibold">{currentStation.name}</span>
+                                </h3>
+                            </div>
+                            <audio
+                                src={currentStation.url_resolved}
+                                controls
+                                autoPlay
+                                className="flex-shrink-0 w-64"
+                            />
+                        </div>
+                    )}
+                </div>
+
+
+
+            </div>
 
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -225,18 +303,9 @@ export default function CalendarPage() {
                                 <div className="flex items-center space-x-3">
                                     <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                                     <h2 className="text-2xl font-semibold text-gray-800">
-                                        予約カレンダー
+                                        Reservation Lists
                                     </h2>
                                 </div>
-
-                                <div>
-
-                                    <div className="p-4 rounded border shadow max-w-sm mx-auto text-center">
-                                        <WeatherWidget />
-                                    </div>
-                                </div>
-
-
                             </div>
                         </div>
 
