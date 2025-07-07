@@ -43,3 +43,12 @@ git add .
 git commit -m "Develop static site"
 git push origin gh-pages
 ```
+
+
+## create .env
+
+```bash
+* create .env.local
+* .env create
+
+````
