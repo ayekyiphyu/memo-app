@@ -1,9 +1,9 @@
 import React from "react";
 
 const images = [
-    "/images/bg01.jpg",
-    "/images/bg02.jpg",
-    "/images/bg03.jpg",
+    "/assest/images/bg01.jpg",
+    "/assest/images/bg02.jpg",
+    "/assest/images/bg03.jpg",
 ];
 
 export default function CustomSlider() {
