@@ -108,6 +108,13 @@ const LoginPage = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-muted px-4">
             <Card className="w-full max-w-md shadow-xl">
+                <div className='flex flex-center'>
+                    <img
+                        src="assest/images/logo.png"
+                        alt="Logo"
+                        className="h-[100px] w-auto"
+                    />
+                </div>
                 <CardHeader>
                     <CardTitle className="text-center text-2xl font-bold">ログイン</CardTitle>
                 </CardHeader>
