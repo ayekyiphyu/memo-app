@@ -404,10 +404,10 @@ export default function CalendarPage() {
                                         end: 'dayGridMonth,timeGridWeek,timeGridDay',
                                     }}
                                     buttonText={{
-                                        today: '今日',
-                                        month: '月表示',
-                                        week: '週表示',
-                                        day: '日表示'
+                                        today: 'Today',
+                                        month: 'Month',
+                                        week: 'Week',
+                                        day: 'Day'
                                     }}
                                     eventClick={(info) => {
                                         const event = info.event;
