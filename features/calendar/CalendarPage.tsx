@@ -231,7 +231,7 @@ export default function CalendarPage() {
                                     <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
                                         <Music className="w-5 h-5 text-white" />
                                     </div>
-                                    <h2 className="text-lg font-semibold text-gray-800">Radio Player</h2>
+                                    <h2 className="text-lg font-semibold text-gray-800 mr-[2rem]">Radio Player</h2>
                                 </div>
                                 <Button
                                     variant="default"
