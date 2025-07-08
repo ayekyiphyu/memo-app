@@ -39,3 +39,20 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# Tell GitHub to ignore HTML/CSS files for language detection
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+
+# Mark build/generated directories as vendored
+public/* linguist-vendored
+.next/* linguist-generated
+out/* linguist-generated
+build/* linguist-generated
+
+# Explicitly mark your main languages
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+*.js linguist-language=JavaScript
+*.jsx linguist-language=JavaScript
