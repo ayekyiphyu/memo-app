@@ -56,7 +56,7 @@ export default function NoticeListsPage() {
     };
     return (
         <div className="w-full p-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 h-auto">
-            <h2 className="text-center font-bold text-2xl mb-10 text-gray-800 drop-shadow-sm">お知らせ一覧</h2>
+            <h2 className="text-center font-bold text-2xl mb-10 text-gray-800 drop-shadow-sm">Our Events lists</h2>
             <div className="max-w-6xl mx-auto space-y-6">
                 {notices.map((notice: { id: number; date: string; title: string; content: string }) => (
                     <Card key={notice.id} className="p-6 bg-white/90 backdrop-blur-sm shadow-lg border border-blue-100 hover:shadow-xl hover:border-blue-200 transition-all duration-300 rounded-xl">

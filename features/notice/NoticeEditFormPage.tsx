@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import useSWR from 'swr';
 
 import {
@@ -65,7 +64,7 @@ export default function NoticeListsPage() {
 
     return (
         <div className="w-full p-8 bg-gray-100 min-h-screen">
-            <h2 className="text-center font-bold text-2xl mb-10">お知らせ一覧</h2>
+            <h2 className="text-center font-bold text-2xl mb-10">Our Events Lists</h2>
             <div className="max-w-6xl mx-auto space-y-6">
                 <div className='flex flex-row'>
                     <Button

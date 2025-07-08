@@ -51,7 +51,6 @@ git push origin gh-pages
 * create .env.local
 * .env create
 
-GEMINI_API_KEY = AIzaSyATQqT0Y6IaiLC7zmUrmbA-zhgghYM-ECw
 
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
 
