@@ -225,7 +225,7 @@ export default function CalendarPage() {
                 <div className="max-w-7xl mx-auto px-6 py-6">
                     <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
                         {/* Radio Player Section */}
-                        <div className="bg-white/90 backdrop-blur-sm border border-white/50 rounded-2xl shadow-xl p-6 flex-1 max-w-md">
+                        <div className="bg-white/90 backdrop-blur-sm border border-white/50 rounded-2xl shadow-xl p-6 flex-1">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">

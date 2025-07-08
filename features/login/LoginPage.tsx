@@ -66,7 +66,8 @@ const LoginPage = () => {
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
     // Use SWR mutation for login
-    const { trigger, error, isMutating, data } = useSWRMutation('/auth/login/', loginUser);
+    const { trigger, error, isMutating, data } = useSWRMutation(`/auth/login/`, loginUser);
+
 
     // Check for registration success message
     useEffect(() => {
