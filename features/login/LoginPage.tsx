@@ -6,21 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useUserStore } from "@/store/userStore";
+import getCookie from '@/types/getCookies';
 import { FormData } from '@/types/types';
 import { Home, Loader2, LogIn, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import useSWRMutation from 'swr/mutation';
-
-// Get cookie function
-function getCookie(name: string) {
-    if (typeof document === 'undefined') return null;
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
-    return null;
-}
 
 // Login fetcher function for SWR
 async function loginUser(url: string, { arg }: { arg: FormData }) {
