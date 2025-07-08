@@ -194,7 +194,7 @@ export default function DashboardPage() {
             {/* Sidebar */}
             <div className="w-64 bg-gradient-to-b from-blue-600 to-blue-800 text-white hidden md:block" style={{ boxShadow: '2px 0 10px rgba(0,0,0,0.1)' }}>
                 <div className="p-6">
-                    <h2 className="text-2xl font-bold mb-8">Memo App</h2>
+
 
                     {/* User info section */}
                     <div className="mb-8">
@@ -222,7 +222,7 @@ export default function DashboardPage() {
                             <DrawerTrigger asChild>
                                 <Button className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all">
                                     <Plus size={18} />
-                                    メーモを作成
+                                    Create
                                 </Button>
                             </DrawerTrigger>
                         </Drawer>
@@ -233,7 +233,7 @@ export default function DashboardPage() {
                                 className="w-full bg-white text-black hover:bg-gray-100 flex items-center justify-center gap-2 rounded-lg font-medium transition-all"
                                 onClick={() => router.push('/notices')}
                             >
-                                お知らせ作製
+                                Create a notice
                             </Button>
                         )}
 
@@ -243,7 +243,7 @@ export default function DashboardPage() {
                             onClick={() => router.push('/reservation')}
                         >
                             <Calendar size={18} />
-                            予約する
+                            Reservation
                         </Button>
 
                         <Button
@@ -252,7 +252,7 @@ export default function DashboardPage() {
                             onClick={handleLogout}
                         >
                             <LogOut size={18} />
-                            ログアウト
+                            Logout
                         </Button>
                     </div>
                 </div>
@@ -314,7 +314,10 @@ export default function DashboardPage() {
                         {/* Memos Section */}
                         {memos && memos.length > 0 && (
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">メモ一覧</h2>
+                                <div className=''>
+                                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Memo Lists</h2>
+                                </div>
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {memos.map((memo: Memo) => (
                                         <Card key={memo.id} className="overflow-hidden border border-gray-200 hover:shadow-md transition-shadow">
@@ -348,7 +351,6 @@ export default function DashboardPage() {
 
                         {/* Calendar Section */}
                         <div>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-6">予約カレンダー</h2>
                             <Card className="border border-gray-200">
                                 <CardContent className="p-6">
                                     <ReservationsCalendar />

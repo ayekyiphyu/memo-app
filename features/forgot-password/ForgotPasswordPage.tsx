@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Mail, CheckCircle, AlertCircle } from 'lucide-react';
+import { AlertCircle, ArrowLeft, CheckCircle, Mail } from 'lucide-react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
@@ -46,7 +46,7 @@ export default function ForgotPasswordPage() {
         const csrfToken = getCookie('csrftoken');
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/password-reset/`, {
+            const res = await fetch(`/auth/password-reset/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

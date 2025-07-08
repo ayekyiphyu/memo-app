@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useHeaderStore } from "@/store/userHeaderStore";
 import { useRouter } from "next/navigation";
-import { LogIn, UserPlus } from "lucide-react";
 
 export default function Header() {
     const isLoggedIn = useHeaderStore((state) => state.isLoggedIn);
@@ -20,9 +19,6 @@ export default function Header() {
                 <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white shadow-md">
                     <span className="text-3xl font-extrabold text-blue-600">M</span>
                 </div>
-                <h1 className="text-3xl font-extrabold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent drop-shadow" style={{ marginBottom: "0px", color: "#ffffff" }}>
-                    Memo App
-                </h1>
             </div>
 
             {!isLoggedIn && (
