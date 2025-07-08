@@ -36,3 +36,5 @@ node_modules/* linguist-vendored
 *.json linguist-language=JSON
 *.md linguist-documentation
 *.mdx linguist-documentation
+
+* linguist-language=TypeScript
