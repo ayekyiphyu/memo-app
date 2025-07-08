@@ -14,21 +14,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useUIStore } from "@/store/useDrawStore";
+import { Memo } from '@/types/types';
 import { Calendar, LogOut, Plus, User } from 'lucide-react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import ReservationsCalendar from '../reservation/ReservationsCalendar';
 
-
-// Memo type definition
-type Memo = {
-    id: number;
-    title: string;
-    content: string;
-    created_at?: string;
-    updated_at?: string;
-};
 
 // SWR fetcher
 const fetcher = (url: string) =>
