@@ -46,7 +46,11 @@ export default function ForgotPasswordPage() {
         const csrfToken = getCookie('csrftoken');
 
         try {
-            const res = await fetch(`/auth/password-reset/`, {
+            // Fixed: Use correct API endpoint URL
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+            console.log('Making request to:', `${apiUrl}/password-reset/request/`);
+
+            const res = await fetch(`${apiUrl}/password-reset/request/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,14 +60,37 @@ export default function ForgotPasswordPage() {
                 body: JSON.stringify({ email }),
             });
 
+            console.log('Response status:', res.status);
+            console.log('Response headers:', res.headers);
+
+            // Check if response is actually JSON
+            const contentType = res.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const textResponse = await res.text();
+                console.error('Non-JSON response received:', textResponse);
+                throw new Error('サーバーから予期しない応答が返されました');
+            }
+
+            const data = await res.json();
+
             if (res.ok) {
                 setIsSuccess(true);
+                setError(''); // Clear any previous errors
             } else {
-                const data = await res.json();
-                setError(data.message || 'パスワードリセットの送信に失敗しました');
+                // Handle different types of errors
+                if (data.error) {
+                    setError(data.error);
+                } else if (data.errors) {
+                    // Handle validation errors from Django serializer
+                    const errorMessages = Object.values(data.errors).flat();
+                    setError(errorMessages.join(', '));
+                } else {
+                    setError(data.message || 'パスワードリセットの送信に失敗しました');
+                }
             }
-        } catch {
-            setError('エラーが発生しました。しばらくしてから再度お試しください');
+        } catch (error) {
+            console.error('Password reset error:', error);
+            setError('ネットワークエラーが発生しました。インターネット接続を確認してください');
         } finally {
             setIsLoading(false);
         }
@@ -71,6 +98,12 @@ export default function ForgotPasswordPage() {
 
     const handleBackToLogin = () => {
         router.push('/login');
+    };
+
+    const handleTryAgain = () => {
+        setIsSuccess(false);
+        setEmail('');
+        setError('');
     };
 
     return (
@@ -127,6 +160,7 @@ export default function ForgotPasswordPage() {
                                 <div className="bg-blue-50 p-4 rounded-lg">
                                     <p className="text-blue-800 text-sm">
                                         <strong>注意:</strong> メールが届かない場合は、迷惑メールフォルダもご確認ください。
+                                        リンクの有効期限は1時間です。
                                     </p>
                                 </div>
 
@@ -140,10 +174,7 @@ export default function ForgotPasswordPage() {
 
                                     <Button
                                         variant="outline"
-                                        onClick={() => {
-                                            setIsSuccess(false);
-                                            setEmail('');
-                                        }}
+                                        onClick={handleTryAgain}
                                         className="w-full"
                                     >
                                         別のメールアドレスで試す
@@ -161,24 +192,30 @@ export default function ForgotPasswordPage() {
                                         id="email"
                                         type="email"
                                         value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        onChange={(e) => {
+                                            setEmail(e.target.value);
+                                            // Clear error when user starts typing
+                                            if (error) setError('');
+                                        }}
                                         placeholder="your-email@example.com"
                                         className="mt-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                                         disabled={isLoading}
+                                        autoComplete="email"
+                                        required
                                     />
                                 </div>
 
                                 {error && (
                                     <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 p-3 rounded-lg">
-                                        <AlertCircle className="w-4 h-4" />
-                                        {error}
+                                        <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                                        <span>{error}</span>
                                     </div>
                                 )}
 
                                 <Button
                                     type="submit"
-                                    disabled={isLoading}
-                                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                                    disabled={isLoading || !email}
+                                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {isLoading ? (
                                         <div className="flex items-center gap-2">
