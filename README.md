@@ -1,3 +1,17 @@
+
+# ReserveIt App
+
+This application allows users to register, log in, create memos, and make reservations. The project has been completed in its entirety.
+
+このアプリでは、ユーザーが新規登録、ログイン、メモの作成、予約を行うことができます。プロジェクトは100%完了しています。
+
+
+ဒီအပ်ပလီကေးရှင်းသည် အသုံးပြုသူများအား အသစ်စာရင်းသွင်းခြင်း၊ လော့ဂ်အင်လုပ်ခြင်း၊ မှတ်စုရေးခြင်းနှင့် ကြိုတင်reservation clendar လုပ်နိုင်ရန် ခွင့်ပြုပါသည်။ ပရောဂျက်သည် ၁၀၀% ပြီးဆုံးထားပါသည်။
+
+
+※ future i will be firebase cloud.
+
+
 # メモ管理ダッシュボード
 
 このプロジェクトは、**Next.js（React）** を使ったフロントエンドと、**Django REST Framework** を使ったバックエンドで構成された、ユーザーごとのメモ管理アプリケーションです。ユーザー登録・ログイン後、メモの作成・編集・削除が可能です。
