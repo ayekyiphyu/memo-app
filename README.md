@@ -9,7 +9,18 @@ This application allows users to register, log in, create memos, and make reserv
 ဒီအပ်ပလီကေးရှင်းသည် အသုံးပြုသူများအား အသစ်စာရင်းသွင်းခြင်း၊ လော့ဂ်အင်လုပ်ခြင်း၊ မှတ်စုရေးခြင်းနှင့် ကြိုတင်reservation clendar လုပ်နိုင်ရန် ခွင့်ပြုပါသည်။ ပရောဂျက်သည် ၁၀၀% ပြီးဆုံးထားပါသည်။
 
 
+
 ※ future i will be firebase cloud.
+
+
+## To Do lists
+ ``` bash
+
+
+  * UI stylesheet
+  * Phone Button
+
+ ```
 
 
 # メモ管理ダッシュボード
